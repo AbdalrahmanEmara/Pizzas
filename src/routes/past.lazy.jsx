@@ -4,16 +4,20 @@ import { useState } from "react";
 import getPastOrders from "../api/getPastOrders";
 import getPastOrder from "../api/getPastOrder";
 import Modal from "../Modal";
-// import { priceConverted, useCurrency } from "../useCurrency";
+import { priceConverted } from "../useCurrency";
+import ErrorBoundary from "../ErrorBoundary";
 
 export const Route = createLazyFileRoute("/past")({
-  component: PastOrdersRoute,
+  component: ErrorBoundaryWrappedPastOrderRoutes,
 });
 
-const intl = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
+function ErrorBoundaryWrappedPastOrderRoutes() {
+  return (
+    <ErrorBoundary>
+      <PastOrdersRoute />
+    </ErrorBoundary>
+  )
+}
 
 function PastOrdersRoute() {
   const [page, setPage] = useState(1);
@@ -95,8 +99,8 @@ function PastOrdersRoute() {
                     <td>{pizza.name}</td>
                     <td>{pizza.size}</td>
                     <td>{pizza.quantity}</td>
-                    <td>{intl.format(pizza.price)}</td>
-                    <td>{intl.format(pizza.total)}</td>
+                    <td>{priceConverted(pizza.price)}</td>
+                    <td>{priceConverted(pizza.total)}</td>
                   </tr>
                 ))}
               </tbody>
