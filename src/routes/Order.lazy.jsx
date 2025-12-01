@@ -56,6 +56,9 @@ function Order() {
     setPizzaTypes(pizzasJson)
     setLoading(false)
   }
+  // function addToCart() {
+  //   setCart([...cart, { pizza: selectedPizza, size: pizzaSize, price }]);
+  // }
 
   return (
     <div className="order-page">
